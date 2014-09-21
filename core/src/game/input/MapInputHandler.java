@@ -81,7 +81,7 @@ public class MapInputHandler implements InputProcessor
 //		renderer.moveMap(screenX, screenY);
 		System.out.println("X - > " + (screenX-mouseMoveX) + " Y - > " + (screenY-mouseMoveY));
 		
-		cam.translate(screenX-mouseMoveX, screenY-mouseMoveY);
+		cam.translate((screenX-cam.position.x)/100, (screenY-cam.position.y)/100);
 		cam.update();
 		return true;
 	}
@@ -100,7 +100,10 @@ public class MapInputHandler implements InputProcessor
 	public boolean scrolled(int amount)
 	{
 		// TODO Auto-generated method stub
-		cam.zoom = +amount;
+		if(amount == -1)
+			cam.zoom -= .1;
+		if(amount == 1)
+			cam.zoom += .1;
 		cam.update();
 		System.out.println(amount);
 		return false;
