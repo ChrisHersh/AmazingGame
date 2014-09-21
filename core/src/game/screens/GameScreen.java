@@ -16,7 +16,6 @@ public class GameScreen implements Screen
 	
 	public GameScreen()
 	{
-		// TODO Auto-generated constructor stub
 		map = new GameMap();
 		renderer = new GameRenderer(map, 1000, 1000);
 		input = new MapInputHandler(renderer);
@@ -27,7 +26,6 @@ public class GameScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
-		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(0, 0, 1, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		

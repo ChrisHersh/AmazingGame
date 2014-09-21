@@ -42,6 +42,10 @@ public class MapInputHandler implements InputProcessor
 	public boolean keyTyped(char character)
 	{
 		// TODO Auto-generated method stub
+		if(character == 'f')
+		{
+			renderer.toggleFPS();
+		}
 		return false;
 	}
 
@@ -59,16 +63,6 @@ public class MapInputHandler implements InputProcessor
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
 		// TODO Auto-generated method stub
-//		if(mouseDown)
-//		{
-//    		long totalDownTime = System.nanoTime() - downStartTime;
-//    		if(totalDownTime >= 1*1000*1000*1000)
-//    		{
-//    			renderer.moveMap(screenX-mouseDownX, screenY-mouseDownY);
-//    		}
-//    		mouseDown = false;
-//    		downStartTime = 0l;
-//		}
 		
 		return true;
 	}
@@ -76,13 +70,13 @@ public class MapInputHandler implements InputProcessor
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
-		
-//		System.out.println("X - > " + screenX + " Y - > " + screenY);
-//		renderer.moveMap(screenX, screenY);
+		//TODO Refine the drag system even more
 		System.out.println("X - > " + (screenX-mouseMoveX) + " Y - > " + (screenY-mouseMoveY));
 		
-		cam.translate((screenX-cam.position.x)/100, (screenY-cam.position.y)/100);
+		cam.translate((screenX-mouseMoveX)*-1, (screenY-mouseMoveY)*-1);
 		cam.update();
+		mouseMoveX= screenX;
+		mouseMoveY = screenY;
 		return true;
 	}
 
@@ -90,22 +84,22 @@ public class MapInputHandler implements InputProcessor
 	public boolean mouseMoved(int screenX, int screenY)
 	{
 		// TODO Auto-generated method stub
-		mouseMoveX = screenX;
+		mouseMoveX= screenX;
 		mouseMoveY = screenY;
-		
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount)
 	{
-		// TODO Auto-generated method stub
+		// TODO Refine the zoom system even more, increment changes depending on current zoom?
+		
 		if(amount == -1)
 			cam.zoom -= .1;
 		if(amount == 1)
 			cam.zoom += .1;
+		System.out.println(cam.zoom);
 		cam.update();
-		System.out.println(amount);
 		return false;
 	}
 

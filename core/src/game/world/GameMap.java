@@ -1,5 +1,6 @@
 package game.world;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import game.generator.MapGenerator;
@@ -7,7 +8,7 @@ import game.generator.MapGenerator;
 public class GameMap
 {
 	private MapGenerator mapGen;
-	private TextureRegion[][] tileMap;
+	private Sprite[][] tileMap;
 	
 	public GameMap()
 	{
@@ -17,10 +18,10 @@ public class GameMap
 	
 	public void update(float delta)
 	{
-		
+//		System.out.println(1/delta);
 	}
 	
-	public TextureRegion[][] getTileMap()
+	public Sprite[][] getTileMap()
 	{
 		return tileMap;
 	}

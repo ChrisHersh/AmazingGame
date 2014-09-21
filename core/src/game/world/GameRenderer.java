@@ -26,6 +26,10 @@ public class GameRenderer
 	
 	private Sprite sp;
 	
+	private Sprite[][] currentMap;
+	
+	private boolean showFPS;
+	
 	public GameRenderer(GameMap map, int gameWidth, int gameHeight)
 	{
 		this.map = map;
@@ -44,9 +48,10 @@ public class GameRenderer
 		
 		sp = new Sprite(tile);
 		
+		currentMap = map.getTileMap();
 	}
 	
-	public void render(float runTime)
+	public void render(float delta)
 	{
 		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -59,8 +64,22 @@ public class GameRenderer
 //		batcher.draw(tile, originX+64, originY, 64, 64);
 //		batcher.draw(tile, originX, originY+64, 64, 64);
 //		batcher.draw(tile, originX+64, originY+64, 64, 64);
-		sp.draw(batcher);
-		sp.setCenter(32, 32);
+		
+//		sp.draw(batcher);
+//		sp.setCenter(32, 32);
+		
+		for(int x = 0; x < currentMap.length; x++)
+		{
+			for(int y = 0; y < currentMap.length; y++)
+			{
+				currentMap[x][y].draw(batcher);
+				currentMap[x][y].setCenter(32+x*64, 32+y*64);
+			}
+		}
+		if(showFPS)
+		{
+			System.err.println(1/delta);
+		}
 		batcher.end();
 	}
 	
@@ -71,5 +90,10 @@ public class GameRenderer
 	public OrthographicCamera getCam()
 	{
 		return cam;
+	}
+
+	public void toggleFPS()
+	{
+		showFPS = !showFPS;
 	}
 }
