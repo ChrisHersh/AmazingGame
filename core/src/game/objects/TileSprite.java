@@ -5,13 +5,14 @@ import game.helpers.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class TileSprite extends Actor
+public class TileSprite// extends Actor
 {
 	private Sprite sprite;
 	private TextureRegion originalTexture;
-	
+
 	private int movementCost = 1;
 	private int defenseBonus = 0;
 	private int attackBonus = 0;
@@ -19,7 +20,7 @@ public class TileSprite extends Actor
 	private int x;
 	private int y;
 	private boolean isSelected = false;
-	
+
 	public TileSprite(TextureRegion region, int x, int y)
 	{
 		// TODO Auto-generated constructor stub
@@ -28,56 +29,52 @@ public class TileSprite extends Actor
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void draw(Batch batch)
 	{
 		sprite.draw(batch);
 	}
-	
+
 	public void setCenter(float x, float y)
 	{
 		sprite.setCenter(x, y);
 	}
-	
+
 	public void resetTexture()
 	{
-		System.err.println("reset");
 		sprite.setRegion(originalTexture);
 	}
-	
+
 	public void changeTexture(TextureRegion region)
 	{
 		sprite.setRegion(region);
 	}
-	
+
 	public void selectNormal()
 	{
-		System.err.println("Tile Slected");
-		
-		
-		if(isSelected)
+		if (isSelected)
 			resetTexture();
 		else
 			changeTexture(AssetLoader.basicInvert);
-		
+
 		isSelected = !isSelected;
 	}
-	
+
 	public void selectMovement()
 	{
-		//TODO change this
+		// TODO change this
 		changeTexture(AssetLoader.basicInvert);
 	}
-	
+
 	public void selectAttackRange()
 	{
-		//TODO change this
+		// TODO change this
 		changeTexture(AssetLoader.basicInvert);
 	}
-	
+
 	public boolean setUnit(Unit newUnit)
 	{
-		if(currentUnit != null)
+		if (currentUnit != null)
 		{
 			System.err.println("MULTIPLE UNITS ON ONE TILE");
 			return false;
@@ -85,7 +82,7 @@ public class TileSprite extends Actor
 		currentUnit = newUnit;
 		return true;
 	}
-	
+
 	public Unit getUnit()
 	{
 		return currentUnit;
@@ -95,5 +92,10 @@ public class TileSprite extends Actor
 	{
 		// TODO Auto-generated method stub
 		return isSelected;
+	}
+	
+	public Vector3 getCenter()
+	{
+		return new Vector3(sprite.getX(), sprite.getY(), 0);
 	}
 }

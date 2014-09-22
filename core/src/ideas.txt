@@ -1,2 +1,14 @@
 Create an Enum for the unit types and the tile types
 	easier to save to txt file, just check the enum and remake the objects
+	
+For map generation, start with 100% of one tile (map type) and place new structures from there
+	Add a setting for higher/lower amounts of modification to the map type
+	
+Difficulties, easy 10 vs 8, normal 10 vs 10, hard 8 vs 10, very hard 4 vs 10, HOW_IS_THIS_EVEN_WINNABLE 1 vs 10
+	default to normal
+	
+	
+	
+Other game ideas~
+	2d fps where player character is paralyzed from the waist down (cannot move and can only twist upper torso)
+		Zombies attacking from every direction

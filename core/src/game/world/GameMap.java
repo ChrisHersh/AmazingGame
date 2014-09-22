@@ -14,11 +14,16 @@ public class GameMap
 	private TileSprite[][] tileMap;
 	private Stage stage;
 	
+	private int previousSelectX;
+	private int previousSelectY;
+	private boolean tileIsSelected= false;
+	
 	public GameMap()
 	{
 		mapGen = new MapGenerator();
-		tileMap = mapGen.generate(128, 80);
-		stage = mapGen.createActorListeners(tileMap);
+		tileMap = mapGen.generate(512, 512);
+		System.out.println(tileMap[0][0].getCenter());
+		//stage = mapGen.createActorListeners(tileMap);
 	}
 	
 	public void update(float delta)
@@ -39,7 +44,16 @@ public class GameMap
 	public void selectTile(int x, int y)
 	{
 		// TODO Auto-generated method stub
+		
+		try
+		{
 		tileMap[x][y].selectNormal();
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+//			e.printStackTrace();
+			System.err.println("PLEASE SELECT A VALID TILE DUM DUM");
+		}
 	}
 
 	public void recieveMessage(String msg)

@@ -31,22 +31,22 @@ public class MapGenerator
 		return map;
 	}
 	
-	public Stage createActorListeners(TileSprite[][] map)
-	{
-		Stage stage = new Stage(new ScreenViewport());
-		
-		for(int x = 0; x < map.length; x++)
-		{
-			for(int y = 0; y < map[x].length; y++)
-			{
-				//TODO remove magic numbers (64)
-                map[x][y].setBounds(x * 64, y * 64, 64, 64);
-                stage.addActor(map[x][y]);
-                EventListener eventListener = new TileClickListener(map[x][y]);
-                map[x][y].addListener(eventListener);
-			}
-		}
-		return stage;
-		
-	}
+//	public Stage createActorListeners(TileSprite[][] map)
+//	{
+//		Stage stage = new Stage(new ScreenViewport());
+//		
+//		for(int x = 0; x < map.length; x++)
+//		{
+//			for(int y = 0; y < map[x].length; y++)
+//			{
+//				//TODO remove magic numbers (64)
+//                map[x][y].setBounds(x * 64, y * 64, 64, 64);
+//                stage.addActor(map[x][y]);
+//                EventListener eventListener = new TileClickListener(map[x][y]);
+//                map[x][y].addListener(eventListener);
+//			}
+//		}
+//		return stage;
+//		
+//	}
 }
