@@ -1,0 +1,2 @@
+Create an Enum for the unit types and the tile types
+	easier to save to txt file, just check the enum and remake the objects

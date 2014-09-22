@@ -1,5 +1,7 @@
 package game.screens;
 
+import game.GameMessenger;
+import game.helpers.TileClickHelper;
 import game.input.MapInputHandler;
 import game.world.GameMap;
 import game.world.GameRenderer;
@@ -13,14 +15,23 @@ public class GameScreen implements Screen
 	private GameMap map;
 	private GameRenderer renderer;
 	private MapInputHandler input;
+	private TileClickHelper clickHelper;
 	
 	public GameScreen()
 	{
 		map = new GameMap();
-		renderer = new GameRenderer(map, 1000, 1000);
+		renderer = new GameRenderer(map, 1000, 1000, map.getStage());
 		input = new MapInputHandler(renderer);
+		clickHelper = new TileClickHelper(map.getTileMap());
+		
+		GameMessenger gm = GameMessenger.getInstance();
+		gm.setMap(map);
+		gm.setRenderer(renderer);
+		gm.setScreen(this);
+		gm.setTileClickHelper(clickHelper);
 		
 		Gdx.input.setInputProcessor(input);
+//		Gdx.input.setInputProcessor(map.getStage());
 	}
 	
 	@Override
@@ -70,6 +81,12 @@ public class GameScreen implements Screen
 
 	@Override
 	public void dispose()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void recieveMessage(String msg)
 	{
 		// TODO Auto-generated method stub
 		

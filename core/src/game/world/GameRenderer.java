@@ -1,6 +1,7 @@
 package game.world;
 
 import game.helpers.AssetLoader;
+import game.objects.TileSprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,26 +12,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GameRenderer 
 {
 	private GameMap map;
 	private OrthographicCamera cam;
+	private Stage stage;
 	
-	private ShapeRenderer shapeRenderer;
+//	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batcher;
 	
 	private TextureRegion tile;
-	
-	private int originX = 0, originY = 0;
-	
+		
 	private Sprite sp;
+	private TileSprite[][] currentMap;
+	boolean showFPS;
 	
-	private Sprite[][] currentMap;
-	
-	private boolean showFPS;
-	
-	public GameRenderer(GameMap map, int gameWidth, int gameHeight)
+	public GameRenderer(GameMap map, int gameWidth, int gameHeight, Stage stage)
 	{
 		this.map = map;
 
@@ -41,14 +40,17 @@ public class GameRenderer
 		// Attach batcher to camera
 		batcher.setProjectionMatrix(cam.combined);
 
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(cam.combined);
+//		shapeRenderer = new ShapeRenderer();
+//		shapeRenderer.setProjectionMatrix(cam.combined);
 
 		tile = AssetLoader.basicTile;
 		
 		sp = new Sprite(tile);
 		
 		currentMap = map.getTileMap();
+		
+		this.stage = stage;
+		stage.getViewport().setCamera(cam);
 	}
 	
 	public void render(float delta)
@@ -58,33 +60,34 @@ public class GameRenderer
 		
 		batcher.setProjectionMatrix(cam.combined);
 		batcher.begin();
-		batcher.disableBlending();
+		batcher.enableBlending();
 		
-//		batcher.draw(tile, originX, originY, 64, 64);
-//		batcher.draw(tile, originX+64, originY, 64, 64);
-//		batcher.draw(tile, originX, originY+64, 64, 64);
-//		batcher.draw(tile, originX+64, originY+64, 64, 64);
+		drawMap();
 		
-//		sp.draw(batcher);
-//		sp.setCenter(32, 32);
-		
-		for(int x = 0; x < currentMap.length; x++)
-		{
-			for(int y = 0; y < currentMap.length; y++)
-			{
-				currentMap[x][y].draw(batcher);
-				currentMap[x][y].setCenter(32+x*64, 32+y*64);
-			}
-		}
 		if(showFPS)
 		{
 			System.err.println(1/delta);
 		}
+		
 		batcher.end();
 	}
 	
 	public void drawMap()
 	{
+		for(int x = 0; x < currentMap.length; x++)
+		{
+			for(int y = 0; y < currentMap[x].length; y++)
+			{
+				//TODO remove magic numbers (64)
+				currentMap[x][y].draw(batcher);
+				currentMap[x][y].setCenter(x*64, y*64);
+			}
+		}
+	}
+	
+	public void drawUnits()
+	{
+		
 	}
 	
 	public OrthographicCamera getCam()
@@ -95,5 +98,18 @@ public class GameRenderer
 	public void toggleFPS()
 	{
 		showFPS = !showFPS;
+	}
+	
+	public void selectTile(int x, int y)
+	{
+		System.out.println("x " + x);
+		System.out.println("y " + y);
+		map.selectTile(x,y);
+	}
+
+	public void recieveMessage(String msg)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
