@@ -10,6 +10,7 @@ public class AssetLoader
 	public static int TILE_SIZE = 64;
 	public static TextureRegion basicTile;
 	public static TextureRegion basicInvert;
+	public static TextureRegion snorlax;
 	
 	public static void load()
 	{
@@ -22,5 +23,11 @@ public class AssetLoader
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         
         basicInvert = new TextureRegion(texture, 0, 0, 64, 64);
+        
+        texture = new Texture(Gdx.files.internal("snorlax.png"));
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        snorlax = new TextureRegion(texture, 0, 0, 64, 64);
+        snorlax.flip(true, true);
 	}
 }

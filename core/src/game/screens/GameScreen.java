@@ -88,7 +88,7 @@ public class GameScreen implements Screen
 
 	public void recieveMessage(String msg)
 	{
-		// TODO Auto-generated method stub
+		// TODO Messenger system method, may remove later
 		
 	}
 

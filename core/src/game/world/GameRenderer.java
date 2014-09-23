@@ -2,6 +2,7 @@ package game.world;
 
 import game.helpers.AssetLoader;
 import game.objects.TileSprite;
+import game.objects.Unit;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +28,7 @@ public class GameRenderer
 
 	private Sprite sp;
 	private TileSprite[][] currentMap;
+	private Unit[] currentUnits;
 	boolean showFPS;
 
 	public GameRenderer(GameMap map, int gameWidth, int gameHeight, Stage stage)
@@ -48,6 +50,7 @@ public class GameRenderer
 		sp = new Sprite(tile);
 
 		currentMap = map.getTileMap();
+		currentUnits = map.getUnits();
 
 //		this.stage = stage;
 //		stage.getViewport().setCamera(cam);
@@ -63,6 +66,7 @@ public class GameRenderer
 		batcher.enableBlending();
 
 		drawMap();
+		drawUnits();
 
 		if (showFPS)
 		{
@@ -74,30 +78,6 @@ public class GameRenderer
 
 	public void drawMap()
 	{
-		// Vector3 position = cam.position;
-		// float width = cam.viewportWidth;
-		// float height = cam.viewportHeight;
-		//
-		// int lowX = (int)(position.x-width/2)-10;
-		// int highX = (int)(position.x+width/2)+10;
-		// int lowY = (int)(position.x-height/2)-10;
-		// int highY = (int)(position.x+height/2)+10;
-		//
-		// if(highX >= currentMap.length) highX = currentMap.length-1;
-		// if(lowX < 0) lowX = 0;
-		// if(highY >= currentMap[0].length) highY = currentMap[0].length-1;
-		// if(lowY < 0) lowY = 0;
-		//
-		// for(int x = lowX; x < highX; x++)
-		// {
-		// for(int y = lowY; y < highY; y++)
-		// {
-		// //TODO remove magic numbers (64)
-		// currentMap[x][y].draw(batcher);
-		// currentMap[x][y].setCenter(x*64, y*64);
-		// }
-		// }
-
 		for (int x = 0; x < currentMap.length; x++)
 		{
 			for (int y = 0; y < currentMap[x].length; y++)
@@ -107,15 +87,18 @@ public class GameRenderer
 						new Vector3(64*2, 64*2, 0)))
 				{
 					currentMap[x][y].draw(batcher);
-					currentMap[x][y].setCenter(x * 64, y * 64);
+//					currentMap[x][y].setCenter(x * 64, y * 64);
 				}
 			}
 		}
 	}
-
+	
 	public void drawUnits()
 	{
-
+		for(int i =0; i < currentUnits.length; i++)
+		{
+			currentUnits[i].draw(batcher);
+		}
 	}
 
 	public OrthographicCamera getCam()
@@ -137,7 +120,7 @@ public class GameRenderer
 
 	public void recieveMessage(String msg)
 	{
-		// TODO Auto-generated method stub
+		// TODO Messenger system method, may remove later
 
 	}
 }

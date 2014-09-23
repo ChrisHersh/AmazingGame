@@ -53,7 +53,6 @@ public class MapInputHandler implements InputProcessor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		// TODO Auto-generated method stub
 		mouseDown = true;
 		downStartTime = System.nanoTime();
 		
@@ -82,7 +81,7 @@ public class MapInputHandler implements InputProcessor
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
 		//TODO Refine the drag system even more
-		System.out.println("X - > " + (screenX-mouseMoveX) + " Y - > " + (screenY-mouseMoveY));
+//		System.out.println("X - > " + (screenX-mouseMoveX) + " Y - > " + (screenY-mouseMoveY));
 		
 		cam.translate((screenX-mouseMoveX)*-1, (screenY-mouseMoveY)*-1);
 		cam.update();
@@ -94,7 +93,6 @@ public class MapInputHandler implements InputProcessor
 	@Override
 	public boolean mouseMoved(int screenX, int screenY)
 	{
-		// TODO Auto-generated method stub
 		mouseMoveX= screenX;
 		mouseMoveY = screenY;
 		return false;

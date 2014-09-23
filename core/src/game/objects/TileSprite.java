@@ -13,17 +13,17 @@ public class TileSprite// extends Actor
 	private Sprite sprite;
 	private TextureRegion originalTexture;
 
-	private int movementCost = 1;
+	public int movementCost = 1;
 	private int defenseBonus = 0;
 	private int attackBonus = 0;
-	private Unit currentUnit = null;
-	private int x;
-	private int y;
+	protected Unit currentUnit = null;
+	protected int x;
+	protected int y;
 	private boolean isSelected = false;
+	private boolean selected = false;
 
 	public TileSprite(TextureRegion region, int x, int y)
 	{
-		// TODO Auto-generated constructor stub
 		sprite = new Sprite(region);
 		originalTexture = region;
 		this.x = x;
@@ -33,11 +33,13 @@ public class TileSprite// extends Actor
 	public void draw(Batch batch)
 	{
 		sprite.draw(batch);
+		setCenter();
 	}
 
-	public void setCenter(float x, float y)
+	public void setCenter()
 	{
-		sprite.setCenter(x, y);
+		//TODO remove magic numbers
+		sprite.setCenter(x*64, y*64);
 	}
 
 	public void resetTexture()
@@ -64,6 +66,7 @@ public class TileSprite// extends Actor
 	{
 		// TODO change this
 		changeTexture(AssetLoader.basicInvert);
+		selected = true;
 	}
 
 	public void selectAttackRange()
@@ -90,12 +93,22 @@ public class TileSprite// extends Actor
 
 	public boolean isSelected()
 	{
-		// TODO Auto-generated method stub
 		return isSelected;
 	}
 	
 	public Vector3 getCenter()
 	{
 		return new Vector3(sprite.getX(), sprite.getY(), 0);
+	}
+
+	public int getMovementCost()
+	{
+		// TODO Auto-generated method stub
+		return movementCost;
+	}
+	
+	public boolean getMovementSelected()
+	{
+		return selected;
 	}
 }
