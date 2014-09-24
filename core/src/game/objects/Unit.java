@@ -55,4 +55,10 @@ public class Unit
 	{
 		return movement;
 	}
+
+	public void moveTo(int x, int y)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

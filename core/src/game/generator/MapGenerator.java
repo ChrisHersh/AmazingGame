@@ -32,7 +32,7 @@ public class MapGenerator
 		}
 		
 		//TODO remove this
-		map[1][3].movementCost = 3;
+//		map[1][3].movementCost = 3;
 		
 		terrainMap = map;
 		return map;

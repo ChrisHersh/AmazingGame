@@ -113,8 +113,6 @@ public class GameRenderer
 
 	public void selectTile(int x, int y)
 	{
-		System.out.println("x " + x);
-		System.out.println("y " + y);
 		map.selectTile(x, y);
 	}
 

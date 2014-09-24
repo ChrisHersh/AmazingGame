@@ -11,6 +11,7 @@ public class AssetLoader
 	public static TextureRegion basicTile;
 	public static TextureRegion basicInvert;
 	public static TextureRegion snorlax;
+	public static TextureRegion redOverlay;
 	
 	public static void load()
 	{
@@ -29,5 +30,11 @@ public class AssetLoader
         
         snorlax = new TextureRegion(texture, 0, 0, 64, 64);
         snorlax.flip(true, true);
+        
+        texture = new Texture(Gdx.files.internal("redOverlay.png"));
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        redOverlay = new TextureRegion(texture, 0, 0, 64, 64);
+        redOverlay.flip(true, true);
 	}
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import game.generator.MapGenerator;
 import game.helpers.AssetLoader;
-import game.helpers.UnitController;
+import game.helpers.MapHelper;
 import game.objects.TileSprite;
 import game.objects.Unit;
 
@@ -16,7 +16,7 @@ public class GameMap
 	private TileSprite[][] tileMap;
 	private Unit[] units;
 	private Stage stage;
-	private UnitController unitCon;
+	private MapHelper mapHelper;
 	
 	private int previousSelectX;
 	private int previousSelectY;
@@ -25,9 +25,9 @@ public class GameMap
 	public GameMap()
 	{
 		mapGen = new MapGenerator();
-		tileMap = mapGen.generate(512, 512);
+		tileMap = mapGen.generate(64, 64);
 		units = mapGen.generateRedTeamUnits();
-		unitCon = new UnitController();
+		mapHelper = new MapHelper(tileMap);
 		System.out.println(tileMap[0][0].getCenter());
 		//stage = mapGen.createActorListeners(tileMap);
 	}
@@ -49,37 +49,7 @@ public class GameMap
 
 	public void selectTile(int x, int y)
 	{
-		try
-		{
-			if(tileMap[x][y].getUnit() != null)
-			{
-				unitCon.selectMovementTiles(tileMap[x][y].getUnit(), tileMap, x, y);
-			}
-			
-			if(!tileIsSelected)
-			{
-				tileMap[x][y].selectNormal();
-				tileIsSelected = true;
-			}
-			else if(x != previousSelectX || y != previousSelectY)
-			{
-				tileMap[previousSelectX][previousSelectY].selectNormal();
-				tileMap[x][y].selectNormal();
-				tileIsSelected = true;
-			}
-			else
-			{
-				tileMap[x][y].selectNormal();
-				tileIsSelected = false;
-			}
-			previousSelectX = x;
-			previousSelectY = y;
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-//			e.printStackTrace();
-			System.err.println("PLEASE SELECT A VALID TILE DUM DUM");
-		}
+		mapHelper.selectTile(x, y);
 	}
 
 	public void recieveMessage(String msg)

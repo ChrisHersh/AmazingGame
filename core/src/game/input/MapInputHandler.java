@@ -104,9 +104,9 @@ public class MapInputHandler implements InputProcessor
 		// TODO Refine the zoom system even more, increment changes depending on current zoom?
 		
 		if(amount == -1)
-			cam.zoom -= .1;
+			cam.zoom -= (cam.zoom*.1) + .1;
 		if(amount == 1)
-			cam.zoom += .1;
+			cam.zoom += (cam.zoom*.1) + .1;
 //		System.out.println(cam.zoom);
 		cam.update();
 		return false;
