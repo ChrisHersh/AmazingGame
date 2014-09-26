@@ -1,6 +1,7 @@
 package game.helpers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import game.objects.TileSprite;
 import game.objects.Unit;
@@ -8,11 +9,11 @@ import game.objects.Unit;
 public class MapHelper
 {
 	private TileSprite[][] map;
-	private ArrayList<TileSprite> selectedMovementTiles;
+	private HashSet<TileSprite> selectedMovementTiles;
 	private TileSprite selectedNormalTile;
 	private boolean normalTileSelected;
-	private ArrayList<TileSprite> selectedAttackTiles;
-	
+	private HashSet<TileSprite> selectedAttackTiles;
+
 	private Unit lastSelectedUnit;
 
 	private int previousX;
@@ -23,35 +24,63 @@ public class MapHelper
 		// TODO Auto-generated constructor stub
 		this.map = map;
 		normalTileSelected = false;
-		selectedAttackTiles = new ArrayList<TileSprite>();
-		selectedMovementTiles = new ArrayList<TileSprite>();
+		selectedAttackTiles = new HashSet<TileSprite>();
+		selectedMovementTiles = new HashSet<TileSprite>();
 		selectedNormalTile = null;
 
 		previousX = -1;
 		previousY = -1;
-		
+
 		lastSelectedUnit = null;
 	}
 
 	private void selectMovementTiles(Unit unit, int x, int y)
 	{
-		recurseIntoMovement(unit, x, y, unit.getMovement());
+		recurseIntoMovement(unit, x - 1, y, unit.getMovement() - 1);
+		recurseIntoMovement(unit, x + 1, y, unit.getMovement() - 1);
+		recurseIntoMovement(unit, x, y - 1, unit.getMovement() - 1);
+		recurseIntoMovement(unit, x, y + 1, unit.getMovement() - 1);
+
+		massSelectMovementTiles();
+		massSelectAttackTiles();
+	}
+
+	private void massSelectMovementTiles()
+	{
+		// TODO Auto-generated method stub
+		for (TileSprite ts : selectedMovementTiles)
+		{
+			ts.selectMovement();
+		}
+	}
+
+	private void massSelectAttackTiles()
+	{
+		// TODO Auto-generated method stub
+		for (TileSprite ts : selectedAttackTiles)
+		{
+			ts.selectAttackRange();
+		}
 	}
 
 	private void recurseIntoMovement(Unit unit, int x, int y, int movementLeft)
 	{
-		if (movementLeft >= map[x][y].getMovementCost())
+		if (movementLeft >= map[x][y].getMovementCost()
+				&& map[x][y].getUnit() == null)
 		{
-			map[x][y].selectMovement();
+			// map[x][y].selectMovement();
 			selectedMovementTiles.add(map[x][y]);
 
 			try
 			// Up
 			{
-				map[x][y - 1].selectMovement();
-				selectedMovementTiles.add(map[x][y - 1]);
-				recurseIntoMovement(unit, x, y - 1,
-						movementLeft - map[x][y].getMovementCost());
+				if (map[x][y - 1].getUnit() == null)
+				{
+					// map[x][y - 1].selectMovement();
+					selectedMovementTiles.add(map[x][y - 1]);
+					recurseIntoMovement(unit, x, y - 1, movementLeft
+							- map[x][y].getMovementCost());
+				}
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -59,10 +88,13 @@ public class MapHelper
 			try
 			// Down
 			{
-				map[x][y + 1].selectMovement();
-				selectedMovementTiles.add(map[x][y + 1]);
-				recurseIntoMovement(unit, x, y + 1,
-						movementLeft - map[x][y].getMovementCost());
+				if (map[x][y + 1].getUnit() == null)
+				{
+					// map[x][y + 1].selectMovement();
+					selectedMovementTiles.add(map[x][y + 1]);
+					recurseIntoMovement(unit, x, y + 1, movementLeft
+							- map[x][y].getMovementCost());
+				}
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -70,10 +102,13 @@ public class MapHelper
 			try
 			// Left
 			{
-				map[x - 1][y].selectMovement();
-				selectedMovementTiles.add(map[x - 1][y]);
-				recurseIntoMovement(unit, x - 1, y,
-						movementLeft - map[x][y].getMovementCost());
+				if (map[x - 1][y].getUnit() == null)
+				{
+					// map[x - 1][y].selectMovement();
+					selectedMovementTiles.add(map[x - 1][y]);
+					recurseIntoMovement(unit, x - 1, y, movementLeft
+							- map[x][y].getMovementCost());
+				}
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -81,10 +116,13 @@ public class MapHelper
 			try
 			// Right
 			{
-				map[x + 1][y].selectMovement();
-				selectedMovementTiles.add(map[x + 1][y]);
-				recurseIntoMovement(unit, x + 1, y,
-						movementLeft - map[x][y].getMovementCost());
+				if (map[x + 1][y].getUnit() == null)
+				{
+					// map[x + 1][y].selectMovement();
+					selectedMovementTiles.add(map[x + 1][y]);
+					recurseIntoMovement(unit, x + 1, y, movementLeft
+							- map[x][y].getMovementCost());
+				}
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -92,27 +130,26 @@ public class MapHelper
 
 		else
 		{
-			map[x][y].selectMovement();
-			selectedMovementTiles.add(map[x][y]);
-			recurseIntoAttack(unit, x-1, y, unit.getAttackRange());
-			recurseIntoAttack(unit, x+1, y, unit.getAttackRange());
-			recurseIntoAttack(unit, x, y-1, unit.getAttackRange());
-			recurseIntoAttack(unit, x, y+1, unit.getAttackRange());
+			// map[x][y].selectMovement();
+			// selectedMovementTiles.add(map[x][y]);
+			recurseIntoAttack(unit, x - 1, y, unit.getAttackRange());
+			recurseIntoAttack(unit, x + 1, y, unit.getAttackRange());
+			recurseIntoAttack(unit, x, y - 1, unit.getAttackRange());
+			recurseIntoAttack(unit, x, y + 1, unit.getAttackRange());
 		}
 	}
 
 	private void recurseIntoAttack(Unit unit, int x, int y, int attackLeft)
 	{
-		if (attackLeft >= 1 && !map[x][y].isMovementSelected())
+		if (attackLeft >= 1 && !selectedMovementTiles.contains(map[x][y]))
 		{
-			map[x][y].selectAttackRange();
+			// map[x][y].selectAttackRange();
 			selectedAttackTiles.add(map[x][y]);
 
 			try
 			// Up
 			{
-				recurseIntoAttack(unit, x, y - 1,
-						attackLeft - 1);
+				recurseIntoAttack(unit, x, y - 1, attackLeft - 1);
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -120,8 +157,7 @@ public class MapHelper
 			try
 			// Down
 			{
-				recurseIntoAttack(unit, x, y + 1,
-						attackLeft - 1);
+				recurseIntoAttack(unit, x, y + 1, attackLeft - 1);
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -129,8 +165,7 @@ public class MapHelper
 			try
 			// Left
 			{
-				recurseIntoAttack(unit, x - 1, y,
-						attackLeft - 1);
+				recurseIntoAttack(unit, x - 1, y, attackLeft - 1);
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
@@ -138,21 +173,19 @@ public class MapHelper
 			try
 			// Right
 			{
-				recurseIntoAttack(unit, x + 1, y,
-						attackLeft - 1);
+				recurseIntoAttack(unit, x + 1, y, attackLeft - 1);
 			} catch (IndexOutOfBoundsException e)
 			{
 			}
 		}
 	}
-	
+
 	public void selectTile(int x, int y)
 	{
-		if(!(x < map.length && y < map[0].length && x > -1 && y > -1))
+		if (!(x < map.length && y < map[0].length && x > -1 && y > -1))
 		{
 			System.err.println("OutOfBoundsOfMap");
-		}
-		else if (selectedMovementTiles.contains(map[x][y]))
+		} else if (selectedMovementTiles.contains(map[x][y]))
 		{
 			unitMove(x, y);
 		} else if (selectedAttackTiles.contains(map[x][y]))
@@ -181,8 +214,7 @@ public class MapHelper
 			{
 				map[x][y].selectNormal();
 				normalTileSelected = true;
-			}
-			else if (x != previousX || y != previousY)
+			} else if (x != previousX || y != previousY)
 			{
 				System.out.println("New Selection");
 				map[previousX][previousY].selectNormal();
@@ -210,15 +242,31 @@ public class MapHelper
 
 	private void unitMove(int x, int y)
 	{
-		System.err.println("Unit Moved");
-		lastSelectedUnit.setTerrain(map[x][y]);
+		if (map[x][y].getUnit() != null)
+		{
+			unitAttack(x, y);
+		} else
+		{
+			System.err.println("Unit Moved");
+			lastSelectedUnit.moveTo(x, y, map[x][y]);
+		}
 		unSelectTiles();
-		
 	}
 
 	private void unitAttack(int x, int y)
 	{
-		System.err.println("Unit Attacked");
+		unSelectTiles();
+		recurseIntoAttack(lastSelectedUnit,
+				(int) lastSelectedUnit.getTerrainLocation().x,
+				(int) lastSelectedUnit.getTerrainLocation().y,
+				lastSelectedUnit.getAttackRange()+1);
+		
+		if ((lastSelectedUnit.getTeam() != map[x][y].getUnit().getTeam())
+				&& selectedAttackTiles.contains(map[x][y]))
+		{
+			lastSelectedUnit.attack(map[x][y].getUnit());
+		}
+		unSelectTiles();
 	}
 
 	private void unSelectTiles()

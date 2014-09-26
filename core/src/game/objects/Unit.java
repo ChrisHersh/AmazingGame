@@ -16,30 +16,46 @@ public class Unit
 	private int health = 100;
 	private int attack = 5;
 	private int speed = 6;
-	private int defense = 10;
+	private int defense = 1;
 	private int movement = 10;
 	
 	private int attackRange = 2;
 	
-	public Unit(TextureRegion region)
+	private int teamNum;
+	
+	private boolean alive;
+	
+	public Unit(TextureRegion region, int teamNum)
 	{
 		sprite = new Sprite(region);
 		originalTexture = region;
+		this.teamNum = teamNum;
+		alive = true;
 	}
 	
 	public void draw(Batch batch)
 	{
+		if(alive)
+		{
 		sprite.draw(batch);
 		setCenter();
+		}
 	}
 	
 	public void setTerrain(TileSprite newTerr)
 	{
 		if(terrain != null)
+	
 			terrain.currentUnit = null;
-		
-		terrain = newTerr;
-		terrain.currentUnit = this;
+		else if(newTerr != null)
+		{
+			terrain = newTerr;
+			terrain.currentUnit = this;
+		}
+		else
+		{
+			terrain = newTerr;
+		}
 	}
 	
 	public Vector2 getTerrainLocation()
@@ -58,14 +74,57 @@ public class Unit
 		return movement;
 	}
 
-	public void moveTo(int x, int y)
+	public boolean moveTo(int x, int y, TileSprite targetTile)
 	{
 		// TODO Auto-generated method stub
+		if(targetTile.getUnit() != null)
+		{
+			System.err.println("Multiple Units ERR");
+			return false;
+		}
+		
+		targetTile.setUnit(this);
+		terrain.setUnit(null);
+		terrain = targetTile;
+		
+		return true;
 		
 	}
 	
 	public int getAttackRange()
 	{
 		return attackRange;
+	}
+	
+	public int getTeam()
+	{
+		return teamNum;
+	}
+	
+	protected void takeHit(int damage)
+	{
+		int tmp = damage - defense;
+		if(tmp < 0)  tmp = 0;
+		
+		health -= tmp;
+		System.out.println("New HP: " + health);
+		
+		if(health <= 0)
+		{
+			die();
+		}
+	}
+	
+	protected void die()
+	{
+		terrain.setUnit(null);
+		terrain = null;
+		alive = false;
+	}
+
+	public void attack(Unit unit)
+	{
+		// TODO Auto-generated method stub
+		unit.takeHit(attack);
 	}
 }

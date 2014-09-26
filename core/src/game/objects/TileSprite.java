@@ -116,11 +116,13 @@ public class TileSprite// extends Actor
 		}
 		if(newUnit == null)
 		{
-			currentUnit.setTerrain(null);
 			currentUnit = null;
 		}
-		currentUnit = newUnit;
-		currentUnit.setTerrain(this);
+		else
+		{
+    		currentUnit = newUnit;
+    		currentUnit.setTerrain(this);
+		}
 		return true;
 	}
 
@@ -153,6 +155,12 @@ public class TileSprite// extends Actor
 	public boolean isAttackSelected()
 	{
 		return attackSelected;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "("+x+","+y+")";
 	}
 
 }
