@@ -12,7 +12,8 @@ public class TileSprite// extends Actor
 {
 	private Sprite sprite;
 	private TextureRegion originalTexture;
-	private Sprite overlay;
+	private Sprite attackOverlay;
+	private Sprite movementOverlay;
 
 	public int movementCost = 1;
 	private int defenseBonus = 0;
@@ -22,11 +23,13 @@ public class TileSprite// extends Actor
 	protected int y;
 	private boolean isSelected = false;
 	private boolean movementSelected = false;
+	private boolean attackSelected = false;
 
 	public TileSprite(TextureRegion region, int x, int y)
 	{
 		sprite = new Sprite(region);
-		overlay = new Sprite(AssetLoader.redOverlay);
+		attackOverlay = new Sprite(AssetLoader.redOverlay);
+		movementOverlay = new Sprite(AssetLoader.greenOverlay);
 		originalTexture = region;
 		this.x = x;
 		this.y = y;
@@ -36,23 +39,26 @@ public class TileSprite// extends Actor
 	{
 		sprite.draw(batch);
 		if(movementSelected)
-			overlay.draw(batch);
+			movementOverlay.draw(batch);
+		else if(attackSelected)
+			attackOverlay.draw(batch);
 		setCenter();
 	}
 
-	public void setCenter()
+	private void setCenter()
 	{
 		//TODO remove magic numbers
 		sprite.setCenter(x*64, y*64);
 		if(movementSelected)
-			overlay.setCenter(x*64, y*64);
+			movementOverlay.setCenter(x*64, y*64);
+		else if(attackSelected)
+			attackOverlay.setCenter(x*64, y*64);
 	}
 
-	public void resetTexture()
+	private void resetTexture()
 	{
 		sprite.setRegion(originalTexture);
 		isSelected = false;
-		
 	}
 
 	public void changeTexture(TextureRegion region)
@@ -73,12 +79,15 @@ public class TileSprite// extends Actor
 
 //		isSelected = !isSelected;
 	}
+	
+	public void unSelectNormal()
+	{
+		resetTexture();
+	}
 
 	public void selectMovement()
 	{
 		// TODO change this
-//		changeTexture(AssetLoader.basicInvert);
-//		isSelected = true;
 		movementSelected = true;
 	}
 	
@@ -90,8 +99,12 @@ public class TileSprite// extends Actor
 	public void selectAttackRange()
 	{
 		// TODO change this
-		changeTexture(AssetLoader.basicInvert);
-		isSelected = true;
+		attackSelected = true;
+	}
+	
+	public void unSelectAttack()
+	{
+		attackSelected = false;
 	}
 
 	public boolean setUnit(Unit newUnit)
@@ -130,6 +143,16 @@ public class TileSprite// extends Actor
 	{
 		// TODO Auto-generated method stub
 		return movementCost;
+	}
+	
+	public boolean isMovementSelected()
+	{
+		return movementSelected;
+	}
+	
+	public boolean isAttackSelected()
+	{
+		return attackSelected;
 	}
 
 }

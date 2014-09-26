@@ -93,11 +93,60 @@ public class MapHelper
 		else
 		{
 			map[x][y].selectMovement();
+			selectedMovementTiles.add(map[x][y]);
+			recurseIntoAttack(unit, x-1, y, unit.getAttackRange());
+			recurseIntoAttack(unit, x+1, y, unit.getAttackRange());
+			recurseIntoAttack(unit, x, y-1, unit.getAttackRange());
+			recurseIntoAttack(unit, x, y+1, unit.getAttackRange());
 		}
 	}
 
+	private void recurseIntoAttack(Unit unit, int x, int y, int attackLeft)
+	{
+		if (attackLeft >= 1 && !map[x][y].isMovementSelected())
+		{
+			map[x][y].selectAttackRange();
+			selectedAttackTiles.add(map[x][y]);
+
+			try
+			// Up
+			{
+				recurseIntoAttack(unit, x, y - 1,
+						attackLeft - 1);
+			} catch (IndexOutOfBoundsException e)
+			{
+			}
+
+			try
+			// Down
+			{
+				recurseIntoAttack(unit, x, y + 1,
+						attackLeft - 1);
+			} catch (IndexOutOfBoundsException e)
+			{
+			}
+
+			try
+			// Left
+			{
+				recurseIntoAttack(unit, x - 1, y,
+						attackLeft - 1);
+			} catch (IndexOutOfBoundsException e)
+			{
+			}
+
+			try
+			// Right
+			{
+				recurseIntoAttack(unit, x + 1, y,
+						attackLeft - 1);
+			} catch (IndexOutOfBoundsException e)
+			{
+			}
+		}
+	}
+	
 	public void selectTile(int x, int y)
-	//Mayo
 	{
 		if(!(x < map.length && y < map[0].length && x > -1 && y > -1))
 		{
@@ -182,7 +231,7 @@ public class MapHelper
 
 		for (TileSprite ts : selectedAttackTiles)
 		{
-			ts.resetTexture();
+			ts.unSelectAttack();
 		}
 		selectedAttackTiles.clear();
 	}

@@ -43,7 +43,7 @@ public class TileClickHelper
 				gm.sendMessage(Destination.GAME_RENDERER, "SELECT " + x + " ");
 				if(map[x][y].isSelected())
 				{
-					map[x][y].resetTexture();
+					map[x][y].unSelectNormal();
 				}
 				else if(!map[x][y].isSelected())
 				{

@@ -19,6 +19,8 @@ public class Unit
 	private int defense = 10;
 	private int movement = 10;
 	
+	private int attackRange = 2;
+	
 	public Unit(TextureRegion region)
 	{
 		sprite = new Sprite(region);
@@ -60,5 +62,10 @@ public class Unit
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getAttackRange()
+	{
+		return attackRange;
 	}
 }
