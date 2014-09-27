@@ -1,5 +1,6 @@
 AwesomeGame
 ===========
+Updates will mainly be at ChrisHersh.com
 
 Simple game made in Java using LibGDX, based off of the Fire Emblem series from Nintendo.
 

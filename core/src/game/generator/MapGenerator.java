@@ -41,12 +41,24 @@ public class MapGenerator
 	public Unit[] generateRedTeamUnits()
 	{
 		//TODO generate the real read team
-		Unit[] units = new Unit[2];
+		Unit[] units = new Unit[6];
 		units[0] = new Unit(AssetLoader.snorlax, 0);
 		units[0].setTerrain(terrainMap[1][1]);
 		
 		units[1] = new Unit(AssetLoader.snorlax, 1);
 		units[1].setTerrain(terrainMap[10][10]);
+		
+		units[2] = new Unit(AssetLoader.snorlax, 1);
+		units[2].setTerrain(terrainMap[10][9]);
+		
+		units[3] = new Unit(AssetLoader.snorlax, 1);
+		units[3].setTerrain(terrainMap[10][8]);
+		
+		units[4] = new Unit(AssetLoader.snorlax, 1);
+		units[4].setTerrain(terrainMap[10][7]);
+		
+		units[5] = new Unit(AssetLoader.snorlax, 1);
+		units[5].setTerrain(terrainMap[10][6]);
 		return units;
 	}
 	
