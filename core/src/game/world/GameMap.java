@@ -10,6 +10,7 @@ import game.helpers.AssetLoader;
 import game.helpers.MapHelper;
 import game.objects.TileSprite;
 import game.objects.Unit;
+import game.screens.GameScreen;
 
 public class GameMap
 {
@@ -23,12 +24,12 @@ public class GameMap
 	private int previousSelectY;
 	private boolean tileIsSelected= false;
 	
-	private Screen screen;
+	private GameScreen screen;
 	
-	public GameMap(int numPlayers, Screen screen)
+	public GameMap(int numPlayers, GameScreen screen)
 	{
 		mapGen = new MapGenerator();
-		tileMap = mapGen.generate(64, 64);
+		tileMap = mapGen.generate(100, 100);
 		
 		units = new Unit[numPlayers][];
 		for(int i = 0; i < numPlayers; i++)
@@ -45,14 +46,15 @@ public class GameMap
 	
 	public void update(float delta)
 	{
-//		System.out.println(1/delta);
+		boolean living[] = new boolean[units.length];
+		
 		int numLiving = 0;
-		for(Unit[] ua : units)
+		for(int i  = 0; i < units.length; i++)
 		{
 			boolean dead = true;
-			for(Unit u : ua)
+			for(int j  = 0; j < units[i].length; j++)
 			{
-				if(u.isAlive())
+				if(units[i][j].isAlive())
 				{
 					dead = false;
 				}
@@ -60,12 +62,24 @@ public class GameMap
 			if(!dead)
 			{
 				numLiving++;
+				living[i] = true;
 			}
 		}
 		
-		if(numLiving < 2)
+		if(numLiving == 1)
 		{
-			
+			int winningPlayer = -1;
+			for(int i  = 0; i < living.length; i++)
+			{
+				if(living[i])
+				{
+					screen.winningPlayer(i);
+				}
+			}
+		}
+		else if(numLiving == 0)
+		{
+			screen.noWinningPlayer();
 		}
 	}
 	

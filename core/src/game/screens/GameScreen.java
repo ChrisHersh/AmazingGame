@@ -101,4 +101,16 @@ public class GameScreen implements Screen
 		MyGdxGame.changeGameScreen(new GameOverScreen(player));
 	}
 
+	public void winningPlayer(int i)
+	{
+		// TODO change gamescreen to say player i won
+		
+	}
+
+	public void noWinningPlayer()
+	{
+		// TODO change game screen to say no one won
+		
+	}
+
 }
