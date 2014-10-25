@@ -1,5 +1,6 @@
 package game.world;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,7 +15,7 @@ public class GameMap
 {
 	private MapGenerator mapGen;
 	private TileSprite[][] tileMap;
-	private Unit[] units;
+	private Unit[][] units;
 	private Stage stage;
 	private MapHelper mapHelper;
 	
@@ -22,19 +23,50 @@ public class GameMap
 	private int previousSelectY;
 	private boolean tileIsSelected= false;
 	
-	public GameMap()
+	private Screen screen;
+	
+	public GameMap(int numPlayers, Screen screen)
 	{
 		mapGen = new MapGenerator();
 		tileMap = mapGen.generate(64, 64);
-		units = mapGen.generateRedTeamUnits();
+		
+		units = new Unit[numPlayers][];
+		for(int i = 0; i < numPlayers; i++)
+		{
+			units[i] = mapGen.generateUnits(i);
+		}
+		
 		mapHelper = new MapHelper(tileMap);
 		System.out.println(tileMap[0][0].getCenter());
 		//stage = mapGen.createActorListeners(tileMap);
+		
+		this.screen = screen;
 	}
 	
 	public void update(float delta)
 	{
 //		System.out.println(1/delta);
+		int numLiving = 0;
+		for(Unit[] ua : units)
+		{
+			boolean dead = true;
+			for(Unit u : ua)
+			{
+				if(u.isAlive())
+				{
+					dead = false;
+				}
+			}
+			if(!dead)
+			{
+				numLiving++;
+			}
+		}
+		
+		if(numLiving < 2)
+		{
+			
+		}
 	}
 	
 	public TileSprite[][] getTileMap()
@@ -42,7 +74,7 @@ public class GameMap
 		return tileMap;
 	}
 	
-	public Unit[] getUnits()
+	public Unit[][] getUnits()
 	{
 		return units;
 	}

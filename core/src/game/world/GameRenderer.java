@@ -28,7 +28,7 @@ public class GameRenderer
 
 	private Sprite sp;
 	private TileSprite[][] currentMap;
-	private Unit[] currentUnits;
+	private Unit[][] currentUnits;
 	boolean showFPS;
 
 	public GameRenderer(GameMap map, int gameWidth, int gameHeight, Stage stage)
@@ -65,6 +65,8 @@ public class GameRenderer
 		batcher.begin();
 		batcher.enableBlending();
 
+		
+		
 		drawMap();
 		drawUnits();
 
@@ -95,9 +97,12 @@ public class GameRenderer
 	
 	public void drawUnits()
 	{
-		for(int i =0; i < currentUnits.length; i++)
+		for(Unit[] ua : currentUnits)
 		{
-			currentUnits[i].draw(batcher);
+			for(Unit u : ua)
+			{
+				u.draw(batcher);
+			}
 		}
 	}
 

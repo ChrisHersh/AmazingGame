@@ -127,4 +127,9 @@ public class Unit
 		// TODO Auto-generated method stub
 		unit.takeHit(attack);
 	}
+
+	public boolean isAlive()
+	{
+		return alive;
+	}
 }

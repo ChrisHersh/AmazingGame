@@ -4,6 +4,7 @@ import game.screens.GameScreen;
 import game.helpers.*;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -17,6 +18,11 @@ public class MyGdxGame extends Game {
 //		img = new Texture("badlogic.jpg");
 		
 		AssetLoader.load();
-		setScreen(new GameScreen());
+		setScreen(new GameScreen(2, this));
+	}
+	
+	public static void changeGameScreen(Screen nextScreen)
+	{
+		
 	}
 }

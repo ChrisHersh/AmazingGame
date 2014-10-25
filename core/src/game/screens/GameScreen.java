@@ -1,11 +1,14 @@
 package game.screens;
 
 import game.GameMessenger;
+import game.MyGdxGame;
 import game.helpers.TileClickHelper;
 import game.input.MapInputHandler;
+import game.objects.Player;
 import game.world.GameMap;
 import game.world.GameRenderer;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,9 +20,9 @@ public class GameScreen implements Screen
 	private MapInputHandler input;
 	private TileClickHelper clickHelper;
 	
-	public GameScreen()
+	public GameScreen(int numPlayers, Game currentGame)
 	{
-		map = new GameMap();
+		map = new GameMap(numPlayers, this);
 		renderer = new GameRenderer(map, 1000, 1000, map.getStage());
 		input = new MapInputHandler(renderer);
 		clickHelper = new TileClickHelper(map.getTileMap());
@@ -90,6 +93,12 @@ public class GameScreen implements Screen
 	{
 		// TODO Messenger system method, may remove later
 		
+	}
+
+	public static void gameOver(Player player)
+	{
+		// TODO Auto-generated method stub
+		MyGdxGame.changeGameScreen(new GameOverScreen(player));
 	}
 
 }

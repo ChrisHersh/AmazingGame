@@ -9,6 +9,7 @@ public class AssetLoader
 {
 	public static int TILE_SIZE = 64;
 	public static TextureRegion basicTile;
+	public static TextureRegion grass;
 	public static TextureRegion basicInvert;
 	public static TextureRegion snorlax;
 	public static TextureRegion redOverlay;
@@ -43,5 +44,11 @@ public class AssetLoader
         
         greenOverlay = new TextureRegion(texture, 0, 0, 64, 64);
         greenOverlay.flip(true, true);
+        
+        texture = new Texture(Gdx.files.internal("grass.png"));
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
+        grass = new TextureRegion(texture, 0, 0, 64, 64);
+        grass.flip(true, true);
 	}
 }

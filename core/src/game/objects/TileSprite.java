@@ -2,6 +2,7 @@ package game.objects;
 
 import game.helpers.AssetLoader;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -68,7 +69,8 @@ public class TileSprite// extends Actor
 
 	public void selectNormal()
 	{
-		System.out.println("Select Normal -> " + isSelected);
+		// TODO remove this
+		//System.out.println("Select Normal -> " + isSelected);
 		if (isSelected)
 			resetTexture();
 		else
