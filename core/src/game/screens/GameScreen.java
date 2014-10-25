@@ -4,7 +4,6 @@ import game.GameMessenger;
 import game.MyGdxGame;
 import game.helpers.TileClickHelper;
 import game.input.MapInputHandler;
-import game.objects.Player;
 import game.world.GameMap;
 import game.world.GameRenderer;
 
@@ -19,12 +18,13 @@ public class GameScreen implements Screen
 	private GameRenderer renderer;
 	private MapInputHandler input;
 	private TileClickHelper clickHelper;
+	private static MyGdxGame game;
 	
-	public GameScreen(int numPlayers, Game currentGame)
+	public GameScreen(int numPlayers, MyGdxGame currentGame)
 	{
 		map = new GameMap(numPlayers, this);
 		renderer = new GameRenderer(map, 1000, 1000, map.getStage());
-		input = new MapInputHandler(renderer);
+		input = new MapInputHandler(renderer, map);
 		clickHelper = new TileClickHelper(map.getTileMap());
 		
 		GameMessenger gm = GameMessenger.getInstance();
@@ -34,6 +34,8 @@ public class GameScreen implements Screen
 		gm.setTileClickHelper(clickHelper);
 		
 		Gdx.input.setInputProcessor(input);
+		
+		game = currentGame;
 //		Gdx.input.setInputProcessor(map.getStage());
 	}
 	
@@ -95,10 +97,10 @@ public class GameScreen implements Screen
 		
 	}
 
-	public static void gameOver(Player player)
+	public static void gameOver(int player)
 	{
 		// TODO Auto-generated method stub
-		MyGdxGame.changeGameScreen(new GameOverScreen(player));
+		game.changeGameScreen(new GameOverScreen(player));
 	}
 
 	public void winningPlayer(int i)

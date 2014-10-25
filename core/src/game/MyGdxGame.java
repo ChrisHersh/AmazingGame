@@ -21,8 +21,8 @@ public class MyGdxGame extends Game {
 		setScreen(new GameScreen(2, this));
 	}
 	
-	public static void changeGameScreen(Screen nextScreen)
+	public void changeGameScreen(Screen nextScreen)
 	{
-		
+		setScreen(nextScreen);
 	}
 }

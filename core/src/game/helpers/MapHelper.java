@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import game.objects.TileSprite;
 import game.objects.Unit;
+import game.world.PlayerManager;
 
 public class MapHelper
 {
@@ -187,10 +188,26 @@ public class MapHelper
 			System.err.println("OutOfBoundsOfMap");
 		} else if (selectedMovementTiles.contains(map[x][y]))
 		{
-			unitMove(x, y);
+			if (lastSelectedUnit.getTeam() == PlayerManager.getCurrPlayerTurn())
+			{
+				unitMove(x, y);
+			}
+			else
+			{
+				unSelectTiles();
+				selectTileNormal(x, y);
+			}
 		} else if (selectedAttackTiles.contains(map[x][y]))
 		{
-			unitAttack(x, y);
+			if (lastSelectedUnit.getTeam() == PlayerManager.getCurrPlayerTurn())
+			{
+				unitAttack(x, y);
+			}
+			else
+			{
+				unSelectTiles();
+				selectTileNormal(x, y);
+			}
 		} else
 		{
 			unSelectTiles();
@@ -204,6 +221,7 @@ public class MapHelper
 		{
 			if (map[x][y].getUnit() != null)
 			{
+
 				lastSelectedUnit = map[x][y].getUnit();
 				if (normalTileSelected)
 					unSelectNormal();
@@ -259,8 +277,8 @@ public class MapHelper
 		recurseIntoAttack(lastSelectedUnit,
 				(int) lastSelectedUnit.getTerrainLocation().x,
 				(int) lastSelectedUnit.getTerrainLocation().y,
-				lastSelectedUnit.getAttackRange()+1);
-		
+				lastSelectedUnit.getAttackRange() + 1);
+
 		if ((lastSelectedUnit.getTeam() != map[x][y].getUnit().getTeam())
 				&& selectedAttackTiles.contains(map[x][y]))
 		{

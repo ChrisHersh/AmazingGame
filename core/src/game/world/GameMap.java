@@ -19,75 +19,75 @@ public class GameMap
 	private Unit[][] units;
 	private Stage stage;
 	private MapHelper mapHelper;
-	
+
 	private int previousSelectX;
 	private int previousSelectY;
-	private boolean tileIsSelected= false;
-	
+	private boolean tileIsSelected = false;
+
 	private GameScreen screen;
-	
+
 	public GameMap(int numPlayers, GameScreen screen)
 	{
 		mapGen = new MapGenerator();
 		tileMap = mapGen.generate(100, 100);
-		
+
 		units = new Unit[numPlayers][];
-		for(int i = 0; i < numPlayers; i++)
+		for (int i = 0; i < numPlayers; i++)
 		{
 			units[i] = mapGen.generateUnits(i);
+			PlayerManager.addNewPlayer();
 		}
-		
+
 		mapHelper = new MapHelper(tileMap);
 		System.out.println(tileMap[0][0].getCenter());
-		//stage = mapGen.createActorListeners(tileMap);
-		
+		// stage = mapGen.createActorListeners(tileMap);
+
 		this.screen = screen;
 	}
-	
+
 	public void update(float delta)
 	{
 		boolean living[] = new boolean[units.length];
-		
+
 		int numLiving = 0;
-		for(int i  = 0; i < units.length; i++)
+		for (int i = 0; i < units.length; i++)
 		{
 			boolean dead = true;
-			for(int j  = 0; j < units[i].length; j++)
+			for (int j = 0; j < units[i].length; j++)
 			{
-				if(units[i][j].isAlive())
+				if (units[i][j].isAlive())
 				{
 					dead = false;
 				}
 			}
-			if(!dead)
+			if (!dead)
 			{
 				numLiving++;
 				living[i] = true;
 			}
 		}
-		
-		if(numLiving == 1)
+
+		if (numLiving == 1)
 		{
 			int winningPlayer = -1;
-			for(int i  = 0; i < living.length; i++)
+			for (int i = 0; i < living.length; i++)
 			{
-				if(living[i])
+				if (living[i])
 				{
 					screen.winningPlayer(i);
 				}
 			}
-		}
-		else if(numLiving == 0)
+		} else if (numLiving == 0)
 		{
 			screen.noWinningPlayer();
 		}
 	}
-	
+
 	public TileSprite[][] getTileMap()
 	{
 		return tileMap;
 	}
-	
+
 	public Unit[][] getUnits()
 	{
 		return units;
@@ -102,9 +102,19 @@ public class GameMap
 	{
 		// TODO Messenger system method, may remove later
 	}
-	
+
 	public Stage getStage()
 	{
 		return stage;
+	}
+
+	public void endTurn()
+	{
+		PlayerManager.endTurn();
+		for (Unit u : units[PlayerManager.getCurrPlayerTurn()])
+		{
+			u.resetAttack();
+			u.resetMove();
+		}
 	}
 }

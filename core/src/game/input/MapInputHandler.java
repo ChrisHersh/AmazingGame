@@ -1,5 +1,6 @@
 package game.input;
 
+import game.world.GameMap;
 import game.world.GameRenderer;
 
 import com.badlogic.gdx.InputProcessor;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 public class MapInputHandler implements InputProcessor
 {
 	private GameRenderer renderer;
+	private GameMap map;
 	
 	private boolean mouseDown = false;
 	private long downStartTime = 0;
@@ -19,9 +21,10 @@ public class MapInputHandler implements InputProcessor
 	
 	private OrthographicCamera cam;
 	
-	public MapInputHandler(GameRenderer renderer)
+	public MapInputHandler(GameRenderer renderer, GameMap map)
 	{
 		this.renderer = renderer;
+		this.map = map;
 		cam = renderer.getCam();
 	}
 	
@@ -47,6 +50,10 @@ public class MapInputHandler implements InputProcessor
 		{
 			renderer.toggleFPS();
 		}
+		else if(character == ' ')
+		{
+			map.endTurn();
+		}
 		return false;
 	}
 
@@ -69,7 +76,7 @@ public class MapInputHandler implements InputProcessor
 			{
 				Vector3 v3 = new Vector3(screenX, screenY, 0);
 				renderer.getCam().unproject(v3);
-				renderer.selectTile((int)(v3.x+32)/64, (int)(v3.y+32)/64);
+				map.selectTile((int)(v3.x+32)/64, (int)(v3.y+32)/64);
 				mouseDown = false;
 			}
 		}
