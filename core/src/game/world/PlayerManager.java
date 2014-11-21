@@ -3,8 +3,6 @@ package game.world;
 import java.util.Vector;
 
 import game.objects.Unit;
-import game.screens.GameScreen;
-
 
 
 public class PlayerManager

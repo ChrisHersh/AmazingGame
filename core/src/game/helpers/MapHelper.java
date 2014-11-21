@@ -22,7 +22,6 @@ public class MapHelper
 
 	public MapHelper(TileSprite[][] map)
 	{
-		// TODO Auto-generated constructor stub
 		this.map = map;
 		normalTileSelected = false;
 		selectedAttackTiles = new HashSet<TileSprite>();
@@ -48,7 +47,6 @@ public class MapHelper
 
 	private void massSelectMovementTiles()
 	{
-		// TODO Auto-generated method stub
 		for (TileSprite ts : selectedMovementTiles)
 		{
 			ts.selectMovement();
@@ -57,7 +55,6 @@ public class MapHelper
 
 	private void massSelectAttackTiles()
 	{
-		// TODO Auto-generated method stub
 		for (TileSprite ts : selectedAttackTiles)
 		{
 			ts.selectAttackRange();

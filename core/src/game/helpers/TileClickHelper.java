@@ -2,8 +2,6 @@ package game.helpers;
 
 import java.util.Scanner;
 
-import game.Destination;
-import game.GameMessenger;
 import game.objects.TileSprite;
 
 public class TileClickHelper
@@ -11,7 +9,6 @@ public class TileClickHelper
 	private TileSprite[][] map;
 	private int currentSelectX;
 	private int currentSelectY;
-	private GameMessenger gm = GameMessenger.getInstance();
 
 	public TileClickHelper(TileSprite[][] map)
 	{
@@ -40,7 +37,6 @@ public class TileClickHelper
 			map[x][y].selectNormal();
 			if(currentSelectX != -1&& currentSelectY != -1)
 			{
-				gm.sendMessage(Destination.GAME_RENDERER, "SELECT " + x + " ");
 				if(map[x][y].isSelected())
 				{
 					map[x][y].unSelectNormal();

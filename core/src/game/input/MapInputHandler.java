@@ -31,21 +31,18 @@ public class MapInputHandler implements InputProcessor
 	@Override
 	public boolean keyDown(int keycode)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character)
 	{
-		// TODO Auto-generated method stub
 		if(character == 'f')
 		{
 			renderer.toggleFPS();
@@ -86,7 +83,6 @@ public class MapInputHandler implements InputProcessor
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
-		//TODO Refine the drag system even more
 //		System.out.println("X - > " + (screenX-mouseMoveX) + " Y - > " + (screenY-mouseMoveY));
 		
 		cam.translate((screenX-mouseMoveX)*-1, (screenY-mouseMoveY)*-1);
@@ -106,9 +102,7 @@ public class MapInputHandler implements InputProcessor
 
 	@Override
 	public boolean scrolled(int amount)
-	{
-		// TODO Refine the zoom system even more, increment changes depending on current zoom?
-		
+	{		
 		if(amount == -1)
 			cam.zoom -= (cam.zoom*.1) + .1;
 		if(amount == 1)

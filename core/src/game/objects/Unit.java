@@ -1,5 +1,7 @@
 package game.objects;
 
+import game.helpers.Constants;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,13 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 public class Unit
 {
 	private Sprite sprite;
-	private TextureRegion originalTexture;
 
 	private TileSprite terrain;
 
-	// TODO turn these into an Enum
 	private int health = 100;
 	private int attack = 5;
+	
+	//If speed is 4 points or higher than the enemy the unit will attack twice
+	//A homage to Fire Emblem
 	private int speed = 6;
 	private int defense = 1;
 	private int movement = 10;
@@ -30,7 +33,6 @@ public class Unit
 	public Unit(TextureRegion region, int teamNum)
 	{
 		sprite = new Sprite(region);
-		originalTexture = region;
 		this.teamNum = teamNum;
 		alive = true;
 		hasAttacked = false;
@@ -68,8 +70,7 @@ public class Unit
 
 	public void setCenter()
 	{
-		// TODO remove magic numbers
-		sprite.setCenter(terrain.x * 64, terrain.y * 64);
+		sprite.setCenter(terrain.x * Constants.mapWidth, terrain.y * Constants.mapHeight);
 	}
 
 	public int getMovement()
@@ -110,7 +111,7 @@ public class Unit
 
 	protected void takeHit(int damage)
 	{
-		int tmp = damage - defense;
+		int tmp = damage - (defense+terrain.getDefenseBonus());
 		if (tmp < 0)
 			tmp = 0;
 
@@ -134,7 +135,9 @@ public class Unit
 	{
 		if (!hasAttacked)
 		{
-			unit.takeHit(attack);
+			unit.takeHit(attack+terrain.getAttackBonus());
+			if(speed >= unit.speed+Constants.speedNeededForDoubleAttack)
+			    unit.takeHit(attack+terrain.getAttackBonus());
 			hasAttacked = true;
 		}
 	}

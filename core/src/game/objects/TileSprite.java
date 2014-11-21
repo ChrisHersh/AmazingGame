@@ -1,6 +1,7 @@
 package game.objects;
 
 import game.helpers.AssetLoader;
+import game.helpers.Constants;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,8 +18,8 @@ public class TileSprite// extends Actor
 	private Sprite movementOverlay;
 
 	public int movementCost = 1;
-	private int defenseBonus = 0;
-	private int attackBonus = 0;
+	protected int defenseBonus = 0;
+	protected int attackBonus = 0;
 	protected Unit currentUnit = null;
 	protected int x;
 	protected int y;
@@ -48,12 +49,11 @@ public class TileSprite// extends Actor
 
 	private void setCenter()
 	{
-		//TODO remove magic numbers
-		sprite.setCenter(x*64, y*64);
+		sprite.setCenter(x*Constants.mapWidth, y*Constants.mapHeight);
 		if(movementSelected)
-			movementOverlay.setCenter(x*64, y*64);
+			movementOverlay.setCenter(x*Constants.mapWidth, y*Constants.mapHeight);
 		else if(attackSelected)
-			attackOverlay.setCenter(x*64, y*64);
+			attackOverlay.setCenter(x*Constants.mapWidth, y*Constants.mapHeight);
 	}
 
 	private void resetTexture()
@@ -69,8 +69,6 @@ public class TileSprite// extends Actor
 
 	public void selectNormal()
 	{
-		// TODO remove this
-		//System.out.println("Select Normal -> " + isSelected);
 		if (isSelected)
 			resetTexture();
 		else
@@ -79,7 +77,6 @@ public class TileSprite// extends Actor
 			isSelected = true;
 		}
 
-//		isSelected = !isSelected;
 	}
 	
 	public void unSelectNormal()
@@ -89,7 +86,6 @@ public class TileSprite// extends Actor
 
 	public void selectMovement()
 	{
-		// TODO change this
 		movementSelected = true;
 	}
 	
@@ -145,7 +141,6 @@ public class TileSprite// extends Actor
 
 	public int getMovementCost()
 	{
-		// TODO Auto-generated method stub
 		return movementCost;
 	}
 	
@@ -164,5 +159,13 @@ public class TileSprite// extends Actor
 	{
 		return "("+x+","+y+")";
 	}
+
+    public int getDefenseBonus() {
+        return defenseBonus;
+    }
+    
+    public int getAttackBonus() {
+        return attackBonus;
+    }
 
 }

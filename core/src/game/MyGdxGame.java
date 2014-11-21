@@ -1,7 +1,8 @@
 package game;
 
-import game.screens.GameScreen;
+
 import game.helpers.*;
+import game.screens.GameScreen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;

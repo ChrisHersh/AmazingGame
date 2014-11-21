@@ -1,6 +1,7 @@
 package game.world;
 
 import game.helpers.AssetLoader;
+import game.helpers.Constants;
 import game.objects.TileSprite;
 import game.objects.Unit;
 
@@ -84,9 +85,8 @@ public class GameRenderer
 		{
 			for (int y = 0; y < currentMap[x].length; y++)
 			{
-				// TODO remove magic numbers (64)
 				if (cam.frustum.boundsInFrustum(currentMap[x][y].getCenter(),
-						new Vector3(64*2, 64*2, 0)))
+						new Vector3(Constants.mapHeight*2, Constants.mapWidth*2, 0)))
 				{
 					currentMap[x][y].draw(batcher);
 //					currentMap[x][y].setCenter(x * 64, y * 64);
@@ -119,11 +119,5 @@ public class GameRenderer
 	public void selectTile(int x, int y)
 	{
 		map.selectTile(x, y);
-	}
-
-	public void recieveMessage(String msg)
-	{
-		// TODO Messenger system method, may remove later
-
 	}
 }
